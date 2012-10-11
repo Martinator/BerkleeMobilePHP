@@ -153,36 +153,12 @@
 			
 		}
 
-		echo "<br><br>" ;
-
-		echo "<table border=\"1\" align=\"center\" width=\"800\">" ;
-		echo "<tr><td valign=\"top\">" ;
 	
-		echo "<table border=\"0\" align=\"center\" width=\"400\">" ;
-		echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\"><b><u>Somebody else is winning these items:</u></b></font></td></tr>" ;
-		foreach($losing_items AS $item){
-			echo "<tr>" ;
-			$item_id = $item[item_id] ;
-			$getitems = mysql_query("SELECT * FROM items WHERE id='$item_id'") ;
-			if (mysql_num_rows($getitems) > 0){
-				while ($current_item = mysql_fetch_array($getitems)){
-					$item_title = $current_item[title] ;
-				}
-			}
-			echo "<td><font face=\"sans-serif\" color=\"#666666\">&#8212;<a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\">$item_title</a>&nbsp;&nbsp;&nbsp; </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\"><b>\$". number_format($item[bid_amount]) ."</b></font></td>" ;
-			if (!$auction_closed){
-				echo "<td>&nbsp;&nbsp;&nbsp;<a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\"><img src=\"mobile_files/button-get_it_back.jpg\" alt=\"Get it back!\" width=\"80\"></a></td>" ;
-			}
-			echo "<tr>" ;
-		}
-		echo "</table>" ;
-		
-		echo "</td><td valign=\"top\">" ;
 
-		echo "<table border=\"0\" align=\"center\" width=\"400\">" ;
-		echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\"><b><u>I'm winning these items!</u></b></font></td></tr>" ;
-		foreach($winning_items AS $item){
-			echo "<tr>" ;
+		echo "<ul data-role=\"listview\"  data-theme=\"c\"  data-divider-theme=\"a\">" ;
+		echo "<li data-role=\"list-divider\">Somebody else is winning these items:</li>" ;
+		foreach($losing_items AS $item){
+			echo "<li><a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\" rel=\"external\">" ;
 			$item_id = $item[item_id] ;
 			$getitems = mysql_query("SELECT * FROM items WHERE id='$item_id'") ;
 			if (mysql_num_rows($getitems) > 0){
@@ -190,17 +166,37 @@
 					$item_title = $current_item[title] ;
 				}
 			}
-			echo "<td><a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\"><font face=\"sans-serif\" color=\"#666666\">&#8212;$item_title&nbsp;&nbsp;&nbsp; </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$". number_format($item[bid_amount]) ."</font></a></td>" ;
-			echo "<tr>" ;
+			echo "<h3>$item_title</h3><p>\$". number_format($item[bid_amount]) ."</p>" ;
+			if (!$auction_closed){
+				echo "<h3>Get it back!</h3>" ;
+			}
+			echo "</a></li>" ;
 		}
-		echo "</table>" ;
 		
-		echo "</td></tr></table>" ;
 		
-		echo "<br><hr width=\"400\" align=\"center\"><br>" ;
+		
+
+		echo "<li data-role=\"list-divider\">I'm winning these items!</li>" ;
+		foreach($winning_items AS $item){
+			echo "<li><a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\" rel=\"external\">" ;
+			$item_id = $item[item_id] ;
+			$getitems = mysql_query("SELECT * FROM items WHERE id='$item_id'") ;
+			if (mysql_num_rows($getitems) > 0){
+				while ($current_item = mysql_fetch_array($getitems)){
+					$item_title = $current_item[title] ;
+				}
+			}
+			echo "<h3>$item_title</h3><p>\$". number_format($item[bid_amount]) ."</p>" ;
+			echo "</a></li>" ;
+		}
+		
+		
+		echo "</ul>" ;
+		
+		
 
 	} else {
-		echo "<center>I have not bid on any items.</center>" ;
+		echo "<h3>I have not bid on any items.</h3>" ;
 	}
 	
 	$donations = mysql_query("SELECT * FROM donations WHERE bidder_user_id='$bidder_user_id'") ;
@@ -213,26 +209,24 @@
 	}
 	echo "<table border=\"0\" align=\"center\" width=\"480\">" ;
 	if (($half_scholarships > 0) || ($full_scholarships > 0) || ($other_amount > 0)) {
-		echo "<tr><td colspan=\"3\"><font face=\"sans-serif\" color=\"#666666\"><b><u>Fund-A-Future</u></b></font></td></tr>" ;
+		echo "<tr><h3>Fund-A-Future</h3>" ;
 	}
 	if ($half_scholarships > 0){
-		echo "<tr><td><font face=\"sans-serif\" color=\"#666666\">Tuition &#43; Room &#38; Board: </font></td><td><font face=\"sans-serif\" color=\"#666666\">$half_scholarships &nbsp;&nbsp; x &nbsp;&nbsp; \$8,000 = </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$" . number_format($half_scholarships * 8000) . "</font></td></tr>" ;
+		echo "<li><p>Tuition &#43; Room &#38; Board:  $half_scholarships &times; \$8,000 = \$" . number_format($half_scholarships * 8000) . "</p></li>" ;
 	}
 	if ($full_scholarships > 0){
-		echo "<tr><td><font face=\"sans-serif\" color=\"#666666\">Tuition-only: </font></td><td><font face=\"sans-serif\" color=\"#666666\">$full_scholarships &nbsp;&nbsp; x &nbsp;&nbsp; \$5,000 = </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$" . number_format($full_scholarships * 5000) . "</font></td></tr>" ;
+		echo "<li><p>Tuition-only: $full_scholarships &times; \$5,000 = \$" . number_format($full_scholarships * 5000) . "</p></li>" ;
 	}
 	if ($other_amount > 0){
-		echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\">Other donation: </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$". number_format($other_amount) . "</font></td></tr>" ;
+		echo "<li><p>Other donation: \$". number_format($other_amount) . "</p></li>" ;
 	}
-	echo "<tr><td colspan=\"3\">&nbsp;</td></tr>" ;
 	//echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\">Total: </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$".number_format(($half_scholarships * 2500) + ($full_scholarships * 5000) + ($other_amount))."</font></td></tr>" ;
-	echo "</table>" ;
-
-
+	echo "</ul>" ;
+	echo "</div>" ; //close "content"
+	echo "</div>" ; //close "page"
 	
-	echo $logout = "<br><center><a href=\"demo_mobile_logout.php\">LOG OUT</a></center> " ;
-
-	echo "<meta http-equiv=\"Refresh\" content=\"15;url=demo_mobile_home.php?docent=$docent\">" ;
+	
+	//echo "<meta http-equiv=\"Refresh\" content=\"15;url=demo_mobile_home.php?docent=$docent\">" ;
 	?>
 
 
