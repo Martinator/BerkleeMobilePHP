@@ -1,0 +1,4 @@
+.svn
+item_images/*
+sync.sh
+_lib/config.php

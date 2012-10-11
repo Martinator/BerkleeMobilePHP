@@ -1,0 +1,5 @@
+AuthType Digest
+AuthName "gala"
+AuthDigestDomain /gala/docent/
+AuthUserFile /var/www/edu/gala/docent/.htpasswd
+Require valid-user
