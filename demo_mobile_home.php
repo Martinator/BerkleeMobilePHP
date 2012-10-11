@@ -47,12 +47,10 @@
 	$title_text = ($docent) ? "Docent for: " : "Bidder" ;
 	$logout_text = ($docent) ? "<br><a href=\"demo_mobile_logout-docent.php\">LOG OUT</a> " : "" ;
 ?>
-
-
-
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
-
+		<title>Berklee Gala</title>
 		<?php
 			if (!$bidder_id && !$bidder_user_id){
 				if ($docent){
@@ -62,82 +60,68 @@
 				}
 			}
 		?>
-	
-		<title>Berklee Mobile Bidder</title>
-
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+		<link rel="stylesheet" href="berklee-mobile.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	</head>
-	<body background="mobile_files/bg-tile-beige.jpg">
+	<body>
 
+		<div data-role="page" data-theme="b">
+			<div data-role="header" data-position="fixed">
+				<a href="demo_mobile_logout.php" data-icon="back" rel="external">Logout</a>
+				<h1>Encore Gala</h1>
 
-	<table border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td align="left"><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>">Home</a></td>
-	<td align="right"><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>">Refresh</a></td>
-	</tr>
-	</table>
+			</div><!-- /header -->
+			<div data-role="content">
+				
+				<?php
+					echo "<h2>$auction_warning</h2>" ;
+					if ($auction_closed){
+						echo "<meta http-equiv=\"Refresh\" content=\"5;url=demo_mobile-display_auction_winners.php\">" ;
+					}
+				?>
 
+				<ul data-role="listview"  data-theme="a" class="categories">
+					<li  data-role="list-divider">
+						<?php echo $name ; ?>
+					</li>
+					<?php
+						if ($auction_closed != 1){
+					?>
 
-	<table border="0" width="480" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td colspan="2">
-		<table border="0" width="480" cellspacing="0" cellpadding="0">
-		<tr>
-		<td><img src="mobile_files/gala-logo.jpg"></td>
-		<td><font face="sans-serif" color="#666666" size="6"><b><?php echo $title_text ; echo $logout_text ; ?><br><br><a href="demo_mobile_home.php"><font face="sans-serif" color="#666666" size="6"><?php echo $name ; ?></font></a></b></font></td>
-		</tr>
-		</table>
-	</td>
-	</tr>
-	<tr>
-	<td colspan="2" align="center">
-		<?php
-			echo "<h2><font color=\"#ff0000\">$auction_warning</font></h2>" ;
-			if ($auction_closed){
-				echo "<meta http-equiv=\"Refresh\" content=\"5;url=demo_mobile-display_auction_winners.php\">" ;
-			}
-		?>
-	</td>
-	</tr>
-	<?php
-		if ($auction_closed != 1){
-	?>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=1&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-instruments.jpg" alt="Instruments/Gear"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=1">Instruments/Gear</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=6&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-artwork.jpg" alt="Artwork"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=6">Artwork</a></td> -->
-	</tr>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=2&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-sports.jpg" alt="Sports"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=2">Sports</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=7&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-restaurants_shows.jpg" alt="Restaurants/Shows"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=7">Restaurants/Shows</a></td> -->
-	</tr>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=4&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-vacations_hotels.jpg" alt="Vacations/Hotels"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=4">Vacations/Hotels</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=8&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-gifts_services.jpg" alt="Gifts &amp; Services"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=8">Gifts &amp; Services</a></td> -->
-	</tr>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=5&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-events.jpg" alt="Events"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=5">Events</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category.php?category=live&docent=<?php echo $docent ; ?>"><img src="mobile_files/button-live_auction.jpg" alt="Live Auction"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category.php?category=1">Live Auction</a></td> -->
-	</tr>
-	<tr>
-	<td colspan="4">&nbsp;</td>
-	</tr>
-	<?php
-		}
-	?>
-	<tr>
-	<td class="bodytext" colspan="2" valign="top" align="center"><a href="demo_mobile_donate.php?docent=<?php echo $docent ; ?>"><img src="images/mobile_demo/donate.jpg" alt="Donate"><br>Fund-A-Future</a></td>
-	</tr>
-	</table>
+					<li>
+						<a href="demo_mobile_category.php?category=1&docent=<?php echo $docent ; ?>"> <img src="images/button-instruments.jpg"/> <h3>Instruments &amp; Gear</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=6&docent=<?php echo $docent ; ?>"> <img src="images/button-artwork.jpg"/> <h3>Artwork</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=2&docent=<?php echo $docent ; ?>"> <img src="images/button-sports.jpg"/> <h3>Sports</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=7&docent=<?php echo $docent ; ?>"> <img src="images/button-restaurants_shows.jpg"/> <h3>Restaurants/Shows</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=4&docent=<?php echo $docent ; ?>"> <img src="images/button-vacations_hotels.jpg"/> <h3>Vacations/Hotels</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=8&docent=<?php echo $docent ; ?>"> <img src="images/button-gifts_services.jpg"/> <h3>Gifts &amp; Services</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=5&docent=<?php echo $docent ; ?>"> <img src="images/button-events.jpg"/> <h3>Events</h3> </a>
+					</li>
+					<?php
+						}
+					?>
+					<li data-theme="c" >
+						<a href="demo_mobile_donate.php?docent=<?php echo $docent ; ?>" rel="external"> <img src="images/donate.jpg"/> <h3>Fund-A-Future</h3> <!--<p>
+						I have not bid on any items.
+						</p>--> </a>
+					</li>
+				</ul>
 
 	
 	

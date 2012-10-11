@@ -1,19 +1,18 @@
 <?php require_once('_lib/_db.php') ; ?>
 
 <?php require_once('_bidder_info.php') ; ?>
-
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
-	
-	
-		<title>Berklee Mobile Bidder</title>
-
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	
+		<title>Berklee Gala</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+		<link rel="stylesheet" href="berklee-mobile.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	</head>
-	<body background="mobile_files/bg-tile-beige.jpg">
-	<center>
+	<body>
 
 
 	<?php
@@ -25,19 +24,7 @@
 		$title_text = ($docent) ? "Docent for: " : "Bidder" ;
 		$logout_text = ($docent) ? "<br><a href=\"demo_mobile_logout-docent.php\">LOG OUT</a> " : "" ;
 	?>
-	<table border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td align="left"><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>">Home</a></td>
-	<td align="right"><a href="demo_mobile_category.php?category=<?php echo "$thecat" ; ?>&docent=<?php echo $docent ; ?>">Refresh</a></td>
-	</tr>
-	</table>
 
-	<table border="0" width="480" cellspacing="0" cellpadding="0">
-	<tr>
-	<td><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>"><img src="mobile_files/gala-logo.jpg"></a></td>
-	<td><font face="sans-serif" color="#666666" size="4"><b><?php echo $title_text ; echo $logout_text ; ?><br><br><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>"><font face="sans-serif" color="#666666"><?php echo $name ; ?></font></a></b></font></td>
-	</tr>
-	</table>
 
 	<?php
 
@@ -60,24 +47,24 @@
 		//echo "<br><br>$query<br><br>" ;
 	
 		if ($thecat == "live"){
-			echo "<font face=\"sans-serif\" color=\"#666666\">Live Auction Items!</font><p>" ;
+			echo "<h3>Live Auction Items!</h3>" ;
 			$category_image_url = "button-live_auction.jpg" ;
 		} else {
 			$categories = mysql_query("SELECT category FROM item_categories WHERE id=$thecat") ;
 			if ($thecat == 1){
-				$category_image_url = "button-instruments.jpg" ;
+				$category_name = "Instruments &amp; Gear" ;
 			} elseif ($thecat == 2) {
-				$category_image_url = "button-sports.jpg" ;
+				$category_name = "Sports" ;
 			} elseif ($thecat == 4) {
-				$category_image_url = "button-vacations_hotels.jpg" ;
+				$category_name = "Vacations &amp; Hotels" ;
 			} elseif ($thecat == 5) {
-				$category_image_url = "button-events.jpg" ;
+				$category_name = "button-events.jpg" ;
 			} elseif ($thecat == 6) {
-				$category_image_url = "button-artwork.jpg" ;
+				$category_name = "Artwork" ;
 			} elseif ($thecat == 7) {
-				$category_image_url = "button-restaurants_shows.jpg" ;
+				$category_name = "Restaurants &amp; Shows" ;
 			} elseif ($thecat == 8) {
-				$category_image_url = "button-gifts_services.jpg" ;
+				$category_name = "Gifts &amp; Services" ;
 			}
 
 			while ($thiscategory = mysql_fetch_array($categories)){
@@ -89,10 +76,16 @@
 		//echo "<hr>". mysql_num_rows($result) ."<hr>" ;
 
 	
-		echo "<table border=\"0\" width=\"480\" align=\"center\">" ;
+		echo "<div data-role=\"page\" data-theme=\"b\">"
+		echo "	<div data-role=\"header\" data-position=\"fixed\">"
+		echo "		<h1>$category_name</h1>"
+		echo "	</div>"
+		echo "<div data-role=\"content\">"
+	
+		echo "<ul data-role=\"listview\"  data-theme=\"c\">" ;
 		//echo "<tr><td><font face=\"sans-serif\" color=\"#666666\" size=\"4\"><b>$category_title</b></font></td></tr>" ;
-		echo "<tr><td bgcolor=\"#9D2063\"><img src=\"mobile_files/$category_image_url\"></font></td></tr>" ;
-		echo "<tr><td>&nbsp;</td></tr>" ;
+	
+
 
 		if (mysql_num_rows($result) > 0){
 			while ($thisitem = mysql_fetch_array($result)){
@@ -107,23 +100,20 @@
 							}
 						}
 					//--------------------------------
-					echo "<tr><td align=\"left\" valign=\"top\" class=\"bodytext\" colspan=\"3\">" ;
+					echo "<li><a href=\"demo_mobile_bid.php?id=$thisitem[id]&docent=$docent\" rel=\"external\">" ;
 					if ($thisitem[image]){
-						$picture = "<a href=\"demo_mobile_bid.php?id=$thisitem[id]&docent=$docent\"><img src=\"item_images/$thisitem[image]\" width=\"200\" align=\"right\"></a>" ;
+						$picture = "<img src=\"item_images/$thisitem[image]\">" ;
 					} else {
 						$picture = "" ;
 					}
 					$thedescription = nl2br($thisitem[description]) ;
-					echo "$picture<a href=\"demo_mobile_bid.php?id=$thisitem[id]&docent=$docent\"><b><font size=\"+1\" color=\"666666\" face=\"sans-serif\">$thisitem[title]</font></b></a><br><br><font face=\"sans-serif\" color=\"#666666\">Current bid: \$ ".number_format($current_bid)."</font><br><br><br><a href=\"demo_mobile_bid.php?id=$thisitem[id]&docent=$docent\"><font size=\"+1\" color=\"#ff0000\" face=\"sans-serif\">Bid now!</font></a></td></tr>" ;
+					echo "$picture <h3>$thisitem[title]</h3><p>Current bid: \$ ".number_format($current_bid)."</p><p>Bid now!</p>" ;
 					if ($thisitem[retail_price] > 0){
 						$price = "$ $thisitem[retail_price]" ;
 					} else {
 						$price = "<i>priceless</i>" ;
 					}
-					echo "<td class=\"bodytext\" valign=\"top\"><p></td>" ;
-					echo "<td align=\"right\" valign=\"top\" class=\"bodytext\">" ;
-					echo "</td></tr>" ;
-					echo "<tr><td colspan=\"3\"><p><hr><p></td></tr>" ;
+					echo "</a></li>" ;
 				} else {
 					$moveon = 1 ;
 				}
@@ -132,17 +122,23 @@
 				//echo "<tr><td align=\"center\" class=\"bodytext\" colspan=\"8\"><i>There are currently no items in that category.  Please check back later.</i></td></tr>" ;
 			}
 		} else { 
-			echo "<tr><td align=\"center\" class=\"bodytext\" colspan=\"8\"><i>There are currently no items in that category.  Please check back later.</i></td></tr>" ;
+			echo "<li><p>There are currently no items in that category.  Please check back later.</p</li>" ;
 		}
-		echo "</table>" ;
+		
+
 	} else {
-		echo "<span class=\"bodyheader\">Auction Items</span><p>" ;
-		echo "Please select a category from the navigation at left<p>" ;
+		echo "<li>";
+		echo "<h2 class=\"bodyheader\">Auction Items</h2>" ;
+		echo "<p>Please select a category from the navigation at left</p>" ;
+		echo "</li>";
 	}
+		echo "</ul>" ;
+		echo "</div>" ;
+		echo "</div>" ;
 	
 	// this comment is superfluous - not just regular fluous.
 	?>
 
 <?php				
-	echo "</center></body></html>";
+	echo "</body></html>";
 ?>

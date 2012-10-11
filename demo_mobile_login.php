@@ -1,37 +1,27 @@
 <? require_once('_lib/_db.php') ; ?>
-
+<!DOCTYPE html>
 	<html>
-	<head>
+		<head>
+			<title>Berklee Gala</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+			<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+			<link rel="stylesheet" href="berklee-mobile.css" />
+			<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+			<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+		</head>
 
-	
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	</head>
-	
-	<body background="mobile_files/bg-tile-purple.jpg">
-	<center>
-	
-	<table border="0" width="95%">
-	<tr>
-	<td><img src="mobile_files/login-header2.jpg" border="0"></td>
-	</tr>
-	<tr>
-	<td><br><br></td>
-	</tr>
-	<tr>
-	<td align="center">
-	<form action="demo_mobile_home.php" method="POST">
-	<font face="arial,helvetica,sans-serif" color="#ffffff" size="6">Please enter your bidder number:<br><br>
-	<input type="number" name="bidder_id" size="16"><br><br>
-	<input type="submit" value="Start bidding!">
-	</font>
-	</form>
-	</td>
-	</tr>
-	</table>
-	
-	</center>
-
+		<body>
+			<div data-role="page" class="landing" data-theme="a">
+				<div data-role="content">
+					<img src="images/login-header2.jpg" class="logo" />
+					<form action="demo_mobile_home.php" method="POST">
+							<label for="bidder_id">Bidder number</label>
+							<input type="text" name="bidder_id" data-theme="b">
+							<input type="submit" value="Start bidding!" data-theme="b">
+					</form>
+				</div><!-- /content -->
+			</div><!-- /page -->
 
 
 <?php				
