@@ -3,20 +3,26 @@
 <?php require_once('_bidder_info.php') ; ?>
 
 <?php require_once('_time.php') ; ?>
-
-
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
-
-	
-		<title>Berklee Mobile Bidder</title>
-
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	
+		<title>Berklee Gala</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+		<link rel="stylesheet" href="berklee-mobile.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	</head>
-	<body background="mobile_files/bg-tile-beige.jpg">
-	<center>
+	<body>
+
+		<div data-role="page" data-theme="b">
+			<div data-role="header" data-position="fixed">
+				<a hhref="demo_mobile_home.php?docent=<?php echo $docent ; ?>" data-icon="back" rel="external">Home</a>
+				<h1>Bid</h1>
+
+			</div><!-- /header -->
+			<div data-role="content">
 
 	<?php
 		$id = $_GET['id'];
@@ -27,19 +33,8 @@
 		$title_text = ($docent) ? "Docent for: " : "Bidder" ;
 		$logout_text = ($docent) ? "<br><a href=\"demo_mobile_logout-docent.php\">LOG OUT</a> " : "" ;
 	?>
-	<table border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td align="left"><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>">Home</a></td>
-	<td align="right"><a href="demo_mobile_bid.php?id=<?php echo "$id" ; ?>&docent=<?php echo $docent ; ?>">Refresh</a></td>
-	</tr>
-	</table>
 
-	<table border="0" width="480" cellspacing="0" cellpadding="0">
-	<tr>
-	<td><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>"><img src="mobile_files/gala-logo.jpg"></a></td>
-	<td><font face="sans-serif" color="#666666" size="4"><b><?php echo $title_text ; echo $logout_text ; ?><br><br><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>"><font face="sans-serif" color="#666666"><?php echo $name ; ?></font></a></b></font></td>
-	</tr>
-	</table>
+
 
 
 	<?php
@@ -54,7 +49,7 @@
 			$bid_amount = str_replace(",","",$bid_amount) ;
 			if ($bid_amount > 99999){
 				$bid_amount = $opening_bid ;
-				$too_high = "<br><font size=\"5\" color=\"#ff0000\">I don't think you meant to bid over \$100,000.  Let's try that again.<br>" ;
+				$too_high = "<h2>I don't think you meant to bid over \$100,000.  Let's try that again.<h2>" ;
 			} else {
 				$too_high = "" ;
 			}
@@ -78,14 +73,14 @@
 			} else {
 				if (!($bid_amount >= $opening_bid)){
 					if ($needed_amount > $opening_bid){
-						echo "<center><font color=\"#990000\">The minimum bid for this item is \$".number_format($opening_bid).".<br><br></center>" ;
+						echo "<h2>The minimum bid for this item is \$".number_format($opening_bid).".</h2>" ;
 					} else {
 						$needed_amount = $last_bid_amount + $increase ;
-						echo "<center><font color=\"#990000\">The minimum bid to take the lead is \$".number_format($needed_amount).".<br><br></center>" ;
+						echo "<h2>The minimum bid to take the lead is \$".number_format($needed_amount).".</h2>" ;
 					}
 				} else {
 					$needed_amount = $last_bid_amount + $increase ;
-					echo "<center><font color=\"#990000\">The minimum bid to take the lead is \$".number_format($needed_amount).".<br><br></center>" ;
+					echo "<h2>The minimum bid to take the lead is \$".number_format($needed_amount).".</h2>" ;
 				}
 				$showbidform = 1 ;
 			}
@@ -105,10 +100,11 @@
 
 
 		if ($submission && !$showbidform){
-			echo "<center><font size=\"5\"><font color=\"#CC0000\" face=\"sans-serif\">You are the highest bidder at \$<u>".number_format($bid_amount)."</u>!</font> - <a href=\"demo_mobile_home.php?docent=$docent\"><font face=\"sans-serif\">See more items</font></a></font></center><br><br>" ;
+			echo "<h2>You are the highest bidder at \$".number_format($bid_amount)."!</h2>";
+			 echo "<a href=\"demo_mobile_home.php?docent=$docent\" data-role=\"button\" rel=\"external\">See more items</a>" ;
 		}
 	
-		echo "<table border=\"0\" width=\"480\" align=\"center\"><tr><td>" ;
+		echo "<ul data-role=\"listview\" data-inset=\"true\"  data-theme=\"c\" class=\"item-detail\">" ;
 		if (isset($result) && mysql_num_rows($result) > 0){
 			while ($thisitem = mysql_fetch_array($result)){
 				$item_id = $thisitem[id] ;
@@ -125,17 +121,21 @@
 						}
 					}
 				//--------------------------------
+				
+
 			
 	
 				$thedescription = nl2br($thisitem[description]) ;
-	
-				echo "<font size=\"4\" color=\"#666666\" face=\"sans-serif\"><b>$thisitem[title]</b></font><br><br>" ;
-				echo "<p>" ;
+
+				echo "<li>" ;
 				if ($thisitem[image]){
-					echo "<img src=\"item_images/$thisitem[image]\" width=\"200\" align=\"left\" hspace=\"5\">";
-				}
-				echo "<font color=\"#666666\" face=\"sans-serif\">$thedescription</font></p>" ;
-				echo "<font color=\"#666666\" face=\"sans-serif\">Retail value: \$".number_format($retail_price)."<br>Opening bid: \$ ".number_format($thisitem[opening_bid])."<br><b>Current bid: \$ ".number_format($current_bid)."</b></font><br>" ;
+					echo "<img src=\"item_images/$thisitem[image]\" >";
+				}echo "<h3>$thisitem[title]</h3>" ;
+				echo "<p>$thedescription<p>" ;
+				echo "</li>";
+				echo "<li><p>Retail value: \$".number_format($retail_price)."</p></li>" ;
+				echo "<li><p>Opening bid: \$ ".number_format($thisitem[opening_bid])."</p></li>" ;
+				echo "<li><h3>Current bid: \$ ".number_format($current_bid)."</h3></li>" ;
 	
 				if ($thisitem[donor1_id]){
 					$donors = mysql_query("SELECT id,fname,lname,prog_name,website,company FROM people WHERE id = $thisitem[donor1_id]") ;
@@ -148,25 +148,26 @@
 							$name1 = ($thisdonor[prog_name]) ? "$thisdonor[prog_name]" : "$thisdonor[fname] $thisdonor[lname]" ;
 						}
 						if ($thisdonor[website]){
-							$link1 = "<a href=\"http://$thisdonor[website]\" target=\"outside\">" ;
-							$endlink1 = "</a>" ;
+							$link1 = "<li><a href=\"http://$thisdonor[website]\" target=\"outside\" rel=\"external\">" ;
+							$endlink1 = "</a></li>" ;
 						} else {
 							$link1 = "" ;
 							$endlink1 = "" ;
 						}
 						if ($thisdonor[fname] && $thisdonor[lname]){
-							echo "<font color=\"#666666\" face=\"sans-serif\">Donor 1: $link1$company1$name1$endlink1</font><br>" ;
+							echo "$link1 Donor 1: $company1$name1$endlink1" ;
 						} else {
-							echo "<font color=\"#666666\" face=\"sans-serif\">Donor 1: $link1$company1$name1$endlink1</font><br>" ;
+							echo "$link1 Donor 1: $company1$name1$endlink1" ;
 						}
 					}
 				}
 			}
 		}
-		echo "</td></tr></table>" ;
+		echo "</ul>" ;
 					
 		if ($submission && !$showbidform){
-			echo "<center><font size=\"5\"><font color=\"#CC0000\" face=\"sans-serif\">You are the highest bidder at \$<u>".number_format($bid_amount)."</u>!</font> - <a href=\"demo_mobile_home.php?docent=$docent\"><font face=\"sans-serif\">See more items</font></a></font></center><br><br>" ;
+			echo "<h2>You are the highest bidder at \$".number_format($bid_amount)."!</h2>";
+			echo "<a href=\"demo_mobile_home.php?docent=$docent\" data-role=\"button\" rel=\"external\">See more items</a>" ;
 			echo "<meta http-equiv=\"Refresh\" content=\"5;url=demo_mobile_home.php?docent=$docent\">" ;
 		}
 
@@ -185,15 +186,22 @@
 			
 
 			?>
-			<center>
+			
 			<form action="demo_mobile_bid.php?id=<?php echo $item_id ; ?>&docent=<?php echo $docent ; ?>" method="POST">
 			<input type="hidden" name="submission" value="1">
+			
+			
+			
+			<ul data-role="listview" data-inset="true"  data-theme="c" class="item-detail">
 			<?php
 				echo $too_high ;
 				echo $topper_text ;
 			?>
 			
-			<p><i><font color="#666666" face="sans-serif">The minimum bid to take the lead is $
+			
+			
+			
+			<li  data-role="list-divider">The minimum bid to take the lead is $
 				<?php 
 					if ($current_bid > 0){
 						echo number_format($current_bid + $increase) ; 
@@ -201,26 +209,35 @@
 						echo number_format($opening_bid) ;
 					}
 				?>
-			</font></i></p>
+			</li>
 			
-			<h2><font face="sans-serif">Your bid: $<input type="number" name="bid_amount" size="7"></font></h2>	
-			<input type="hidden" name="bidder_user_id" value="<?php echo $bidder_user_id ; ?>">
-			<input type="hidden" name="item_id" value="<?php echo $item_id ; ?>">
-			<input type="hidden" name="opening_bid" value="<?php echo $opening_bid ; ?>">
-			<input type="hidden" name="increase" value="<?php echo $increase ; ?>">
-			<input type="hidden" name="last_bid_amount" value="<?php echo $current_bid ; ?>">
-			<input type="submit" value="Bid!">
-			</form>
-			</center>
+		
+
+						<li>
+							<label for="bid_amount">Your bid:</label>
+							<input type="number" name="bid_amount"  id="bid_amount" />
+							<input type="hidden" name="bidder_user_id" value="<?php echo $bidder_user_id ; ?>">
+							<input type="hidden" name="item_id" value="<?php echo $item_id ; ?>">
+							<input type="hidden" name="opening_bid" value="<?php echo $opening_bid ; ?>">
+							<input type="hidden" name="increase" value="<?php echo $increase ; ?>">
+							<input type="hidden" name="last_bid_amount" value="<?php echo $current_bid ; ?>">
+						</li>
+					</ul>
+				<input type="submit" data-theme="a" value="Bid!">
+
+				</form>
+
 			<?php
 		}
 
-		echo "<br>$auction_warning<br>" ;
+		echo "<h2>$auction_warning<h2>" ;
 	?>
 
 
 
 
-<?php				
+<?php		
+	echo "</div>" ; //close "content"
+	echo "</div>" ; //close "page"	
 	echo "</body></html>";
 ?>
