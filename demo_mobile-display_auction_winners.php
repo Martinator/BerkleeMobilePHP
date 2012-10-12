@@ -1,23 +1,27 @@
-
 <?php require_once('_lib/_db.php') ; ?>
-
 <?php require_once('_bidder_info.php') ; ?>
-
 <?php require_once('_time.php') ; ?>
-
-
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
-
-	
-		<title>Berklee Mobile Bidder</title>
-
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	
+		<title>Berklee Gala</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+		<link rel="stylesheet" href="berklee-mobile.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	</head>
-	<body background="mobile_files/bg-tile-beige.jpg">
-	<center>
+	<body>
+
+		<div data-role="page" data-theme="b">
+			<div data-role="header" data-position="fixed">
+				<a hhref="demo_mobile_home.php?docent=<?php echo $docent ; ?>" data-icon="back" rel="external">Home</a>
+				<h1>Silent Auction Winners</h1>
+
+			</div><!-- /header -->
+
+			<div data-role="content">
 
 	<?php
 		$id = $_GET['id'];
@@ -28,29 +32,11 @@
 		$title_text = ($docent) ? "Docent for: " : "Bidder" ;
 		$logout_text = ($docent) ? "<br><a href=\"demo_mobile_logout-docent.php\">LOG OUT</a> " : "" ;
 	?>
-	<table border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td align="left"><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>">Home</a></td>
-	<td align="right"><a href="demo_mobile_bid.php?id=<?php echo "$id" ; ?>&docent=<?php echo $docent ; ?>">Refresh</a></td>
-	</tr>
-	</table>
-
-	<table border="0" width="480" cellspacing="0" cellpadding="0">
-	<tr>
-	<td><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>"><img src="mobile_files/gala-logo.jpg"></a></td>
-	<td><font face="sans-serif" color="#666666" size="4"><b><?php echo $title_text ; echo $logout_text ; ?><br><br><a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>"><font face="sans-serif" color="#666666"><?php echo $name ; ?></font></a></b></font></td>
-	</tr>
-	</table>
-
 
 
 <!-- --------------------------------------------------------------------------------------------------------- -->
 
-		
-		<center><font size="+3"><b><span class="bodyheader">Silent Auction Winners</span></b></font></center>
-		<br><br>
-	
-	
+
 	<?php
 	
 	//	today's date
@@ -76,49 +62,56 @@
 		$result = mysql_query("SELECT items.id,items.title,items.winner_id,items.catalogue_number,people.id,people.fname,people.lname,salutations.salutation AS salutation_text FROM items LEFT JOIN people ON items.winner_id=people.id LEFT JOIN salutations ON people.salutation=salutations.id WHERE items.winner_id>0 ORDER BY people.lname,people.fname LIMIT $startfrom,$themax", $db) ;
 	
 		if (mysql_num_rows($result) > 0){
-			echo "<table border=\"0\" align=\"center\">" ;
-			echo "<tr><td class=\"bodytext\">&nbsp;</td><td class=\"bodytext\"><b>Winner</b></td><td>&nbsp;</td><td class=\"bodytext\"><b>Item(s) Won</b></td></tr>" ;
-			echo "<tr><td class=\"bodytext\">&nbsp;</td><td class=\"bodytext\" colspan=\"4\"><hr></td></tr>" ;
+			echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;
+			echo "<li  data-role=\"list-divider\"><h3>Winner</h3><p>Item(s) Won</p></li>" ;
 			$lastperson = "" ;
 			while ($thisitem = mysql_fetch_array($result)){
 				if ($thisitem[winner_id]){
-					echo "<tr>";
-					echo "<td align=\"left\" class=\"bodytext\">&nbsp;</td>";
-					echo "<td align=\"left\" valign=\"top\" class=\"bodytext\">" ;
+					echo "<li>";
 					if ($thisitem[winner_id] == $lastperson){
-						echo "&nbsp;" ;
+						echo "" ;
 					} else {
 						$fname = ($thisitem[fname]) ? $thisitem[fname] : $thisitem[salutation_text] ;
-						echo "<b><a href=\"check_out_invoice.php?id=$thisitem[winner_id]\">$fname $thisitem[lname]</a></b>" ;
+						echo "<a href=\"check_out_invoice.php?id=$thisitem[winner_id]\"><h3>$fname $thisitem[lname]</h3>" ;
 					}
-					echo "</td>" ;
-					echo "<td>&nbsp;</td>" ;
-					echo "<td align=\"left\" class=\"bodytext\">$thisitem[title]</td>" ;
-					echo "</tr>";
-					echo "<tr><td class=\"bodytext\" colspan=\"10\">&nbsp;</td></tr>" ;
+
+					echo "<p>$thisitem[title]</p>" ;
+					if ($thisitem[winner_id] == $lastperson){
+						echo "" ;
+					} else {
+						$fname = ($thisitem[fname]) ? $thisitem[fname] : $thisitem[salutation_text] ;
+						echo "</a>" ;
+					}
+					echo "</li>";
+
 					$lastperson = $thisitem[winner_id] ;
 				} else {
 					$donothing = "" ;
 				}
 			}
+			echo "</ul>" ;
 			$startfrom = $startfrom + 9 ;
 			echo "<meta http-equiv=\"Refresh\" content=\"10;url=demo_mobile-display_auction_winners.php?startfrom=$startfrom\">" ;
 			$nextlink = "demo_mobile-display_auction_winners.php?startfrom=$startfrom" ;
 		} else { 
-			echo "<center>Retrieving winners...</center>" ;
+			echo "<h2>Retrieving winners...</h2>" ;
 			$startfrom = 0 ;
 			echo "<meta http-equiv=\"Refresh\" content=\"2;url=demo_mobile-display_auction_winners.php?startfrom=$startfrom\">" ;
 			$nextlink = "demo_mobile-display_auction_winners.php?startfrom=$startfrom" ;
 		}
-		echo "</table>" ;
 		
-		echo "<center><i><a href=\"$nextlink\">&#187; NEXT &#187;</a></i></center>" ;
+		
+		echo "<a href=\"$nextlink\" data-role=\"button\" rel=\"external\">NEXT</a>" ;
 	
 	
 	
 	?>
 
 <!-- --------------------------------------------------------------------------------------------------------- -->
+ 
+			</div><!-- /content -->
 
-</body>
+		</div><!-- /page -->
+
+	</body>
 </html>
