@@ -3,46 +3,55 @@
 <?php require_once('_bidder_info.php') ; ?>
 
 <?php require_once('_time.php') ; ?>
-
-
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
-
-	
-		<title>Berklee Mobile Bidder</title>
-
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	
+		<title>Berklee Gala</title>
+		<?php
+			if (!$bidder_id && !$bidder_user_id){
+				if ($docent){
+					echo "<meta http-equiv=\"refresh\" content=\"0;docent/index.php\">" ;
+				} else {
+					echo "<meta http-equiv=\"refresh\" content=\"0;demo_mobile_login.php\">" ;
+				}
+			}
+		?>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+		<link rel="stylesheet" href="berklee-mobile.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	</head>
-	<body background="mobile_files/bg-tile-beige.jpg">
-	<center>
+	<body>
 
-	<table border="0" width="480" cellspacing="0" cellpadding="0">
-	<tr>
-	<td><a href="demo_mobile_home.php"><img src="mobile_files/gala-logo.jpg"></a></td>
-	<td><font face="sans-serif" color="#666666" size="4"><b>Bidder<br><br><a href="demo_mobile_home.php"><font face="sans-serif" color="#666666"><?php echo $name ; ?></font></a></b></font></td>
-	</tr>
-	</table>
+		<div data-role="page" data-theme="b">
+			<div data-role="header" data-position="fixed">
+				<a href="demo_mobile_logout.php" data-icon="back" rel="external">Logout</a>
+				<h1>Leader Board</h1>
+
+			</div><!-- /header -->
+			<div data-role="content">
 
 
 	<?php
 		echo "<meta http-equiv=\"Refresh\" content=\"15;url=demo_mobile_leader-board.php\">" ;
 	
-		echo "<br>$auction_warning<br>" ;
+		echo "<h2>$auction_warning<h2>" ;
 
 		
-		echo "<table border=\"0\" width=\"480\">" ;
-		echo "<tr><td>" ;
+		echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;
+		echo "<li data-role=\"list-divider\">Bidder: $name</li>" ;
+		echo "<li>" ;
 		$items = mysql_query("SELECT * FROM items WHERE (is_current='1' AND display_on_web='1') ORDER BY RAND() LIMIT 1") ;
 		if (mysql_num_rows($items) > 0){
 			while ($thisitem = mysql_fetch_array($items)){
-				echo "<font size=\"4\" color=\"#666666\" face=\"sans-serif\"><b>$thisitem[title]</b></font><br><br>" ;
-				echo "<p>" ;
+				
 				if ($thisitem[image]){
 					echo "<img src=\"item_images/$thisitem[image]\" width=\"200\" align=\"left\" hspace=\"5\">";
 				}
-				echo "<font color=\"#666666\" face=\"sans-serif\">$thedescription</font></p>" ;
+				echo "<h3>$thisitem[title]</h3>" ;
+				echo "<p>$thedescription</p>" ;
 				//------ get current bid ---------------
 					$item_id = $thisitem[id] ;
 					$bids = mysql_query("SELECT * FROM bids WHERE item_id=$item_id ORDER BY bid_amount DESC LIMIT 1") ;
@@ -52,8 +61,9 @@
 						}
 					}
 				//-------/end get current bid ----------
-				echo "<font color=\"#666666\" face=\"sans-serif\">Retail value: $price<br>Opening bid: $ ".number_format($thisitem[opening_bid])."<br><font color=\"#ff000\"><b>Current bid: \$ ".number_format($current_bid)."</b></font></font><br>" ;
-	
+				echo "<p>Retail value: $price</p><p>Opening bid: $ ".number_format($thisitem[opening_bid])."</p><p><strongb>Current bid: \$ ".number_format($current_bid)."</strong></p>" ;
+				echo "</li>" ;
+				
 				if ($thisitem[donor1_id]){
 					$donors = mysql_query("SELECT id,fname,lname,prog_name,website,company FROM people WHERE id = $thisitem[donor1_id]") ;
 					while ($thisdonor = mysql_fetch_array($donors)){
@@ -65,22 +75,22 @@
 							$name1 = ($thisdonor[prog_name]) ? "$thisdonor[prog_name]" : "$thisdonor[fname] $thisdonor[lname]" ;
 						}
 						if ($thisdonor[website]){
-							$link1 = "<a href=\"http://$thisdonor[website]\" target=\"outside\">" ;
+							$link1 = "<a href=\"http://$thisdonor[website]\" target=\"outside\" rel=\"external\">" ;
 							$endlink1 = "</a>" ;
 						} else {
 							$link1 = "" ;
 							$endlink1 = "" ;
 						}
 						if ($thisdonor[fname] && $thisdonor[lname]){
-							echo "<font color=\"#666666\" face=\"sans-serif\">Donor 1: $link1$company1$name1$endlink1</font><br>" ;
+							echo "<li>$link1 Donor 1: $company1$name1$endlink1</li>" ;
 						} else {
-							echo "<font color=\"#666666\" face=\"sans-serif\">Donor 1: $link1$company1$name1$endlink1</font><br>" ;
+							echo "<li>$link1 Donor 1: $company1$name1$endlink1</li>" ;
 						}
 					}
 				}
 			}
 		}
-		echo "</td></tr></table>" ;
+		echo "</ul>" ;
 		
 		
 	?>
@@ -88,6 +98,8 @@
 
 
 
-<?php				
+<?php			
+	echo "</div>" ; //close "content"
+	echo "</div>" ; //close "page"	
 	echo "</body></html>";
 ?>
