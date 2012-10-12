@@ -101,7 +101,9 @@
 
 		if ($submission && !$showbidform){
 			echo "<h2>You are the highest bidder at \$".number_format($bid_amount)."!</h2>";
-			 echo "<a href=\"demo_mobile_home.php?docent=$docent\" data-role=\"button\" rel=\"external\">See more items</a>" ;
+			echo "<a href=\"demo_mobile_home.php?docent=$docent\" data-role=\"button\" rel=\"external\">See more items</a>" ;
+			//echo "<meta http-equiv=\"Refresh\" content=\"5;url=demo_mobile_home.php?docent=$docent\">" ;
+		
 		}
 	
 		echo "<ul data-role=\"listview\" data-inset=\"true\"  data-theme=\"c\" class=\"item-detail\">" ;
@@ -132,12 +134,13 @@
 					echo "<img src=\"item_images/$thisitem[image]\" >";
 				}echo "<h3>$thisitem[title]</h3>" ;
 				echo "<p>$thedescription<p>" ;
-				echo "</li>";
-				echo "<li><p>Retail value: \$".number_format($retail_price)."</p></li>" ;
-				echo "<li><p>Opening bid: \$ ".number_format($thisitem[opening_bid])."</p></li>" ;
+				echo "<p>Retail value: \$".number_format($retail_price)."</p>" ;
+				echo "<p>Opening bid: \$ ".number_format($thisitem[opening_bid])."</p>";
+				echo "</li>" ;
 				echo "<li><h3>Current bid: \$ ".number_format($current_bid)."</h3></li>" ;
 	
 				if ($thisitem[donor1_id]){
+					echo "<li>";
 					$donors = mysql_query("SELECT id,fname,lname,prog_name,website,company FROM people WHERE id = $thisitem[donor1_id]") ;
 					while ($thisdonor = mysql_fetch_array($donors)){
 						if ($thisdonor[company]){
@@ -148,8 +151,8 @@
 							$name1 = ($thisdonor[prog_name]) ? "$thisdonor[prog_name]" : "$thisdonor[fname] $thisdonor[lname]" ;
 						}
 						if ($thisdonor[website]){
-							$link1 = "<li><a href=\"http://$thisdonor[website]\" target=\"outside\" rel=\"external\">" ;
-							$endlink1 = "</a></li>" ;
+							$link1 = "<a href=\"http://$thisdonor[website]\" target=\"outside\" rel=\"external\">" ;
+							$endlink1 = "</a>" ;
 						} else {
 							$link1 = "" ;
 							$endlink1 = "" ;
@@ -160,16 +163,13 @@
 							echo "$link1 Donor 1: $company1$name1$endlink1" ;
 						}
 					}
+					echo "</li>";
 				}
 			}
 		}
 		echo "</ul>" ;
 					
-		if ($submission && !$showbidform){
-			echo "<h2>You are the highest bidder at \$".number_format($bid_amount)."!</h2>";
-			echo "<a href=\"demo_mobile_home.php?docent=$docent\" data-role=\"button\" rel=\"external\">See more items</a>" ;
-			echo "<meta http-equiv=\"Refresh\" content=\"5;url=demo_mobile_home.php?docent=$docent\">" ;
-		}
+
 
 		if ((!$submission || $showbidform) && !$auction_closed){
 			//----- NO BID SUBMITTED, SHOW BID FORM ------
