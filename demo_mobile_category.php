@@ -76,11 +76,11 @@
 		//echo "<hr>". mysql_num_rows($result) ."<hr>" ;
 
 	
-		echo "<div data-role=\"page\" data-theme=\"b\">"
-		echo "	<div data-role=\"header\" data-position=\"fixed\">"
-		echo "		<h1>$category_name</h1>"
-		echo "	</div>"
-		echo "<div data-role=\"content\">"
+		echo "<div data-role=\"page\" data-theme=\"b\">";
+		echo "  <div data-role=\"header\" data-position=\"fixed\">";
+		echo "		<h1>$category_name</h1>";
+		echo "	</div>";
+		echo "<div data-role=\"content\">";
 	
 		echo "<ul data-role=\"listview\"  data-theme=\"c\">" ;
 		//echo "<tr><td><font face=\"sans-serif\" color=\"#666666\" size=\"4\"><b>$category_title</b></font></td></tr>" ;
