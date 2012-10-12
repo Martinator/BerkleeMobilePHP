@@ -58,7 +58,7 @@
 			} elseif ($thecat == 4) {
 				$category_name = "Vacations &amp; Hotels" ;
 			} elseif ($thecat == 5) {
-				$category_name = "button-events.jpg" ;
+				$category_name = "Events" ;
 			} elseif ($thecat == 6) {
 				$category_name = "Artwork" ;
 			} elseif ($thecat == 7) {
