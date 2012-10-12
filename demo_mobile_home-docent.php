@@ -37,90 +37,81 @@
 
 
 ?>
-
-
-
-	<html>
+<!DOCTYPE html>
+<html>
 	<head>
-
+		<title>Berklee Gala</title>
 		<?php
 			if (!$bidder_id && !$bidder_user_id){
 				echo "<meta http-equiv=\"refresh\" content=\"0;demo_mobile_login-docent.php\">" ;
 			}
 		?>
-	
-		<title>Berklee Mobile Bidder</title>
-
-		<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+		<link rel="stylesheet" href="berklee-mobile.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	</head>
-	<body background="mobile_files/bg-tile-beige.jpg">
+	<body>
+
+		<div data-role="page" data-theme="b">
+			<div data-role="header" data-position="fixed">
+				<a href="demo_mobile_home-docent.php" data-icon="home" rel="external">Home</a>
+				<h1>Docent</h1>
+
+			</div><!-- /header -->
+			<div data-role="content">
 
 
-	<table border="0" width="100%" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td align="left"><a href="demo_mobile_home-docent.php">Home</a></td>
-	<td align="right"><a href="demo_mobile_home-docent.php">Refresh</a></td>
-	</tr>
-	</table>
+
+		
 
 
-	<table border="0" width="480" cellspacing="0" cellpadding="0" align="center">
-	<tr>
-	<td colspan="2">
-		<table border="0" width="480" cellspacing="0" cellpadding="0">
-		<tr>
-		<td><img src="mobile_files/gala-logo.jpg"></td>
-		<td><font face="sans-serif" color="#666666" size="6"><b>Docent for: <br><br><a href="demo_mobile_home-docent.php"><font face="sans-serif" color="#666666" size="6"><?php echo $name ; ?></font></a></b></font></td>
-		</tr>
-		</table>
-	</td>
-	</tr>
-	<tr>
-	<td colspan="2" align="center">
 		<?php
-			echo "<h2><font color=\"#ff0000\">$auction_warning</font></h2>" ; ;
+			echo "<h2>$auction_warning</h2>" ; ;
 		?>
-	</td>
-	</tr>
+		
+<ul data-role="listview" data-inset="true"  data-theme="a" class="categories">
+					<li  data-role="list-divider">
+						Docent for: <?php echo $name ; ?>
+					</li>
 	<?php
 		if ($auction_closed != 1){
 	?>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=1"><img src="mobile_files/button-instruments.jpg" alt="Instruments/Gear"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=1">Instruments/Gear</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=6"><img src="mobile_files/button-artwork.jpg" alt="Artwork"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=6">Artwork</a></td> -->
-	</tr>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=2"><img src="mobile_files/button-sports.jpg" alt="Sports"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=2">Sports</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=7"><img src="mobile_files/button-restaurants_shows.jpg" alt="Restaurants/Shows"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=7">Restaurants/Shows</a></td> -->
-	</tr>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=4"><img src="mobile_files/button-vacations_hotels.jpg" alt="Vacations/Hotels"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=4">Vacations/Hotels</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=8"><img src="mobile_files/button-gifts_services.jpg" alt="Gifts &amp; Services"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=8">Gifts &amp; Services</a></td> -->
-	</tr>
-	<tr>
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=5"><img src="mobile_files/button-events.jpg" alt="Events"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=5">Events</a></td> -->
-	<td class="bodytext" bgcolor="#9D2063"><a href="demo_mobile_category-docent.php?category=live"><img src="mobile_files/button-live_auction.jpg" alt="Live Auction"></a></td>
-	<!-- <td class="bodytext"><a href="demo_mobile_category-docent.php?category=1">Live Auction</a></td> -->
-	</tr>
-	<tr>
-	<td colspan="4">&nbsp;</td>
-	</tr>
+
+
+					<li>
+						<a href="demo_mobile_category.php?category=1"> <img src="images/button-instruments.jpg"/> <h3>Instruments &amp; Gear</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=6"> <img src="images/button-artwork.jpg"/> <h3>Artwork</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=2"> <img src="images/button-sports.jpg"/> <h3>Sports</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=7"> <img src="images/button-restaurants_shows.jpg"/> <h3>Restaurants/Shows</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=4"> <img src="images/button-vacations_hotels.jpg"/> <h3>Vacations/Hotels</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=8"> <img src="images/button-gifts_services.jpg"/> <h3>Gifts &amp; Services</h3> </a>
+					</li>
+					<li>
+						<a href="demo_mobile_category.php?category=5"> <img src="images/button-events.jpg"/> <h3>Events</h3> </a>
+					</li>
 	<?php
 		}
 	?>
-	<tr>
-	<td class="bodytext" colspan="2" valign="top" align="center"><a href="demo_mobile_donate-docent.php"><img src="images/mobile_demo/donate.jpg" alt="Donate"><br>Fund-A-Future</a></td>
-	</tr>
-	</table>
+
+					<li data-theme="c" >
+						<a href="demo_mobile_donate-docent.php" rel="external"> <img src="images/donate.jpg"/> <h3>Fund-A-Future</h3> <!--<p>
+						I have not bid on any items.
+						</p>--> </a>
+					</li>
+	</ul>
 
 	
 	
@@ -152,15 +143,14 @@
 			
 		}
 
-		echo "<br><br>" ;
 
-		echo "<table border=\"1\" align=\"center\" width=\"800\">" ;
-		echo "<tr><td valign=\"top\">" ;
-	
-		echo "<table border=\"0\" align=\"center\" width=\"400\">" ;
-		echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\"><b><u>Somebody else is winning these items:</u></b></font></td></tr>" ;
+
+		
+		
+		echo "<ul data-role=\"listview\"  data-theme=\"c\"  data-divider-theme=\"a\">" ;
+		echo "<li data-role=\"list-divider\">Somebody else is winning these items:</li>" ;
 		foreach($losing_items AS $item){
-			echo "<tr>" ;
+			echo "<li><a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\" rel=\"external\">" ;
 			$item_id = $item[item_id] ;
 			$getitems = mysql_query("SELECT * FROM items WHERE id='$item_id'") ;
 			if (mysql_num_rows($getitems) > 0){
@@ -168,17 +158,18 @@
 					$item_title = $current_item[title] ;
 				}
 			}
-			echo "<td><font face=\"sans-serif\" color=\"#666666\">&#8212;$item_title&nbsp;&nbsp;&nbsp; </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\"><b>\$". number_format($item[bid_amount]) ."</b></font></td><td>&nbsp;&nbsp;&nbsp;<a href=\"demo_mobile_bid-docent.php?id=$item_id\"><img src=\"mobile_files/button-get_it_back.jpg\" alt=\"Get it back!\" width=\"80\"></a></td>" ;
-			echo "<tr>" ;
+			echo "<h3>$item_title</h3><p>\$". number_format($item[bid_amount]) ."</p>" ;
+			if (!$auction_closed){
+				echo "<h3>Get it back!</h3>" ;
+			}
+			echo "</a></li>" ;
 		}
-		echo "</table>" ;
 		
-		echo "</td><td valign=\"top\">" ;
+		
 
-		echo "<table border=\"0\" align=\"center\" width=\"400\">" ;
-		echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\"><b><u>I'm winning these items!</u></b></font></td></tr>" ;
+		echo "<li data-role=\"list-divider\">I'm winning these items!</li>" ;
 		foreach($winning_items AS $item){
-			echo "<tr>" ;
+			echo "<li><a href=\"demo_mobile_bid.php?id=$item_id&docent=$docent\" rel=\"external\">" ;
 			$item_id = $item[item_id] ;
 			$getitems = mysql_query("SELECT * FROM items WHERE id='$item_id'") ;
 			if (mysql_num_rows($getitems) > 0){
@@ -186,17 +177,18 @@
 					$item_title = $current_item[title] ;
 				}
 			}
-			echo "<td><a href=\"demo_mobile_bid-docent.php?id=$item_id\"><font face=\"sans-serif\" color=\"#666666\">&#8212;$item_title&nbsp;&nbsp;&nbsp; </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$". number_format($item[bid_amount]) ."</font></a></td>" ;
-			echo "<tr>" ;
+			echo "<h3>$item_title</h3><p>\$". number_format($item[bid_amount]) ."</p>" ;
+			echo "</a></li>" ;
 		}
-		echo "</table>" ;
 		
-		echo "</td></tr></table>" ;
 		
-		echo "<br><hr width=\"400\" align=\"center\"><br>" ;
+		echo "</ul>" ;
+		
+		
+
 
 	} else {
-		echo "<center>I have not bid on any items.</center>" ;
+		echo "<h2>I have not bid on any items.</h2>" ;
 	}
 	
 	$donations = mysql_query("SELECT * FROM donations WHERE bidder_user_id='$bidder_user_id'") ;
@@ -207,20 +199,20 @@
 			$other_amount += $thisdonation[other_amount] ;
 		}
 	}
-	echo "<table border=\"0\" align=\"center\" width=\"480\">" ;
-	echo "<tr><td colspan=\"3\"><font face=\"sans-serif\" color=\"#666666\"><b><u>Fund-A-Future</u></b></font></td></tr>" ;
+	echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;
+	echo "<li data-role=\"list-divider\">Fund-A-Future</li>" ;
 	if ($half_scholarships > 0){
-		echo "<tr><td><font face=\"sans-serif\" color=\"#666666\">Half scholarships: </font></td><td><font face=\"sans-serif\" color=\"#666666\">$half_scholarships &nbsp;&nbsp; x &nbsp;&nbsp; \$2,500 = </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$" . number_format($half_scholarships * 2500) . "</font></td></tr>" ;
+		echo "<li><p>Tuition &#43; Room &#38; Board:  $half_scholarships &times; \$8,000 = \$" . number_format($half_scholarships * 8000) . "</p></li>" ;
 	}
 	if ($full_scholarships > 0){
-		echo "<tr><td><font face=\"sans-serif\" color=\"#666666\">Full scholarships: </font></td><td><font face=\"sans-serif\" color=\"#666666\">$full_scholarships &nbsp;&nbsp; x &nbsp;&nbsp; \$5,000 = </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$" . number_format($full_scholarships * 5000) . "</font></td></tr>" ;
+		echo "<li><p>Tuition-only: $full_scholarships &times; \$5,000 = \$" . number_format($full_scholarships * 5000) . "</p></li>" ;
 	}
 	if ($other_amount > 0){
-		echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\">Other donation: </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$". number_format($other_amount) . "</font></td></tr>" ;
+		echo "<li><p>Other donation: \$". number_format($other_amount) . "</p></li>" ;
 	}
-	echo "<tr><td colspan=\"3\">&nbsp;</td></tr>" ;
+
 	//echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\">Total: </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$".number_format(($half_scholarships * 2500) + ($full_scholarships * 5000) + ($other_amount))."</font></td></tr>" ;
-	echo "</table>" ;
+	echo "</ul>" ;
 
 
 	
@@ -228,7 +220,9 @@
 	?>
 
 
-
-<?php				
+		</div><!-- /content -->
+	</div><!-- /page -->
+<?php	
+			
 	echo "</body></html>";
 ?>
