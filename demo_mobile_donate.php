@@ -15,7 +15,7 @@
 
 		<div data-role="page" data-theme="b">
 			<div data-role="header" data-position="fixed">
-				<a hhref="demo_mobile_home.php?docent=<?php echo $docent ; ?>" data-icon="back" rel="external">Home</a>
+				<a href="demo_mobile_home.php?docent=<?php echo $docent ; ?>" data-icon="back" rel="external">Home</a>
 				<h1>Fund-A-Future</h1>
 
 			</div><!-- /header -->
