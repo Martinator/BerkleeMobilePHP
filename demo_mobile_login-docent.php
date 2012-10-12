@@ -1,28 +1,23 @@
 <?php require_once('_lib/_db.php') ; ?>
-
+<!DOCTYPE html>
 	<html>
-	<head>
+		<head>
+			<title>Berklee Gala</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+			<link rel="stylesheet" href="css/themes/BerkleeGala.css" />
+			<link rel="stylesheet" href="berklee-mobile.css" />
+			<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+			<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+		</head>
 
-	
-	<link rel="stylesheet" type="text/css" href="_mobile.css">	
-	
-	</head>
-	
-	<body background="mobile_files/bg-tile-purple.jpg">
-	<center>
+		<body>
 	
 
 
 
-	<table border="0" width="95%">
-	<tr>
-	<td><img src="mobile_files/login-header2.jpg" border="0"></td>
-	</tr>
-	<tr>
-	<td><br><br></td>
-	</tr>
-	<tr>
-	<td>
+
+
 	<?php
 
 		$submission = htmlentities($_POST['submission'],ENT_QUOTES) ;
@@ -57,16 +52,21 @@
 		}
 
 		// echo "query_string is $query_string<br>" ;
+		
+		
+		<div data-role="page" class="landing" data-theme="a">
+
+			<div data-role="content">
+
+				<img src="images/login-header2.jpg" class="logo" />
+
 
 		if ($submission && !$addnew){
 			$result = mysql_query("SELECT people.*,salutations.salutation AS salutation_text FROM people LEFT JOIN salutations ON people.salutation=salutations.id WHERE $query_string", $db) ;
-	
-			echo "<table border=\"0\" align=\"center\">" ;
-			echo "<tr><td align=\"center\" colspan=\"4\"><font color=\"#ffffff\"><u>Which guest are you looking for?</u></font><br><br></td></tr>" ;
+			echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;
+			echo "<li data-role=\"list-divider\">Which guest are you looking for?</li>" ;
 			if (mysql_num_rows($result) > 0){
 				while ($thisperson = mysql_fetch_array($result)){
-					echo "<tr>";
-					echo "<td align=\"left\" class=\"bodytext\">&nbsp;</td>";
 					$fname = ($thisperson[fname]) ? $thisperson[fname] : $thisperson[salutation_text] ;
 					$mname = $thisperson[mname] ;
 					$lname = $thisperson[lname] ;
@@ -77,36 +77,36 @@
 						$name .= $lname . " " ;
 					}
 					if ($inv_fname){
-						$name .= "<br>($inv_fname)" ;
+						$name .= "($inv_fname)" ;
 					} else {
 						$donothing = "" ;
 					}
 					if ($thisperson[job_title]){
-						$job_title = "<br>$thisperson[job_title]" ;
+						$job_title = "$thisperson[job_title]" ;
 					} else {
 						$job_title = "" ;
 					}
 					if ($thisperson[company]){
-						$company = "<br>$thisperson[company]" ;
+						$company = "$thisperson[company]" ;
 					} else {
 						$company = "" ;
 					}
 					$text = $thisperson[notes] ;
 					$phone = $thisperson[phone1] ;
-					echo "<td align=\"left\" valign=\"top\" class=\"bodytext\"><b><a href=\"demo_mobile_home.php?bidder_id=$thisperson[bidder_id]&docent=1\"><font color=\"#ffcc66\">$name</font></a></b>$job_title<br>$company<br>$phone</td>" ;
-					echo "<td align=\"left\" class=\"bodytext\">&nbsp;</td>";
+					echo "<li><a href=\"demo_mobile_home.php?bidder_id=$thisperson[bidder_id]&docent=1\">";
+					echo "<h3>$name</h3><p>$job_title</p><p>$company</p><p>$phone</p>" ;
 					$date = $thisperson[date_entered] ;
 					$who = $thisperson[who_entered] ;
-					echo "<td align=\"right\" class=\"bodytext\">Bidder &#35;$thisperson[bidder_id]</td>";
-					echo "</tr>";
-					echo "<tr><td colspan=\"4\"><hr width=\"80%\"></td></tr>" ;
+					echo "<p>Bidder &#35;$thisperson[bidder_id]</p>";
+					echo "</a></li>";
+
 				}
 			} else { 
 				if ($submission){
-					echo "<tr><td align=\"left\" class=\"bodytext\">No Results.  Please widen your search.</td></tr>" ;
+					echo "<h2>No Results.  Please widen your search.</h2>" ;
 				}
 			}
-			echo "</table>" ;
+			echo "</ul>" ;
 		}
 		
 
@@ -116,20 +116,29 @@
 		<?php
 			if (!$addnew && $submission){
 		?>
-				<center>
-				<form action="demo_mobile_login-docent.php" method="POST">
-				<font face="arial,helvetica,sans-serif" color="#ffffff" size="4">Add a new guest<br><br>
+		<form action="demo_mobile_login-docent.php" method="POST">
 				<input type="hidden" name="submission" value="1">
 				<input type="hidden" name="addnew" value="1">
-				<table border="0">
-				<tr><td align="left"><font face="arial,helvetica,sans-serif" color="#ffffff" size="4">Name: </td><td><input type="text" name="fname"> <input type="text" name="lname"></font></td></tr>
-				<tr><td align="left"><font face="arial,helvetica,sans-serif" color="#ffffff" size="4">Phone: </td><td><input type="text" name="phone"></font></td></tr>
-				<tr><td align="left"><font face="arial,helvetica,sans-serif" color="#ffffff" size="4">Email: </td><td><input type="text" name="email"></font></td></tr>
-				</table>
-				<input type="submit" value="Add Person">
-				</font>
-				</form>
-				</center>
+				<div data-role="fieldcontain" >
+					<label for="fname">First Name</label>
+					<input type="text" name="fname" id="fname" placeholder="First Name"/>
+				</div>
+				<div data-role="fieldcontain" >
+					<label for="lname">Last Name</label>
+					<input type="text" name="lname" id="lname" placeholder="Last Name"/>
+				</div>
+				<div data-role="fieldcontain" >
+					<label for="phone">Phone</label>
+					<input type="tel" name="phone" id="phone" placeholder="Phone"/>
+				</div>
+				<div data-role="fieldcontain" >
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email" placeholder="Email"/>
+				</div>
+				<input type="submit" value="Add Person" data-theme="a"/>
+		</form>
+
+	
 		<?php
 			}
 		?>
@@ -175,9 +184,10 @@
 
 			$result = mysql_query("INSERT people (fname,lname,phone1,email,is_item_contact,is_attending,has_arrived,is_paid,date_modified,bidder_id) VALUES ('$fname','$lname','$phone1','$email','$is_item_contact','$is_attending','$has_arrived','$is_paid','$todaynum','$bidder_id')") ;
 
-			echo "<table align=\"center\">" ;
-			echo "<tr><td align=\"left\" valign=\"top\" class=\"bodytext\"><b><a href=\"demo_mobile_home.php?bidder_id=$bidder_id&docent=1\"><font color=\"#ffcc66\">$fname $lname</font></a> - Start bidding!</b></td></tr>" ;
-			echo "</table>" ;
+			echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;
+			echo "<li data-role=\"list-divider\">Which guest are you looking for?</li>" ;
+			echo "<li><a href=\"demo_mobile_home.php?bidder_id=$bidder_id&docent=1\"><h3>$fname $lname</h3><p>Start bidding!</p></a></li>" ;
+			echo "</ul>" ;
 		}
 		
 	?>
@@ -189,26 +199,31 @@
 	<?php
 		if (!$submission){
 	?>
-	<tr>
-	<td align="center">
-	<form action="demo_mobile_login-docent.php" method="POST">
-	<font face="arial,helvetica,sans-serif" color="#ffffff" size="6">(Always help the guest)<br><br>
-	<input type="hidden" name="submission" value="1">
-	Name: <input type="text" name="fname"> <input type="text" name="lname"><br><br>
-	<input type="submit" value="Find Guest">
-	</font>
-	</form>
-	</td>
-	</tr>
+				<form action="demo_mobile_login-docent.php" method="POST">
+					<h2>(Always help the guest)</h2>
+					<input type="hidden" name="submission" value="1">
+					<div data-role="fieldcontain" class="ui-hide-label">
+						<label for="fname">First Name</label>
+						<input type="text" name="fname" id="fname" data-theme="b" placeholder="First Name" />
+					</div>
+					<div data-role="fieldcontain" class="ui-hide-label">
+						<label for="lname">Last Name</label>
+						<input type="text" name="lname" id="lname" data-theme="b"  placeholder="Last Name" />
+					</div>
+					<input type="submit" value="Find Guest" data-theme="b">
+				</form>
+
 	<?php
 		}
 	?>
-	</table>
+
 	
-	</center>
 
 
 
-<?php				
+
+<?php		
+	echo "</div><!-- /content -->";
+	echo "</div><!-- /page -->";
 	echo "</body></html>";
 ?>
