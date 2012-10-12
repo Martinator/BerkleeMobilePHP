@@ -14,7 +14,11 @@
 		<body>
 	
 
+		<div class="landing" data-theme="a" data-role="page">
+		
+			<div data-role="content">
 
+				<img src="images/login-header2.jpg" class="logo" />
 
 
 
@@ -53,12 +57,8 @@
 
 		// echo "query_string is $query_string<br>" ;
 		
-		
-		<div data-role="page" class="landing" data-theme="a">
+	
 
-			<div data-role="content">
-
-				<img src="images/login-header2.jpg" class="logo" />
 
 
 		if ($submission && !$addnew){
@@ -218,12 +218,12 @@
 	?>
 
 	
-
+		</div><!-- /content -->
+	</div><!-- /page -->
 
 
 
 <?php		
-	echo "</div><!-- /content -->";
-	echo "</div><!-- /page -->";
+
 	echo "</body></html>";
 ?>
