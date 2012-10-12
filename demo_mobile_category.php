@@ -133,12 +133,13 @@
 		echo "</li>";
 	}
 		echo "</ul>" ;
-		echo "</div>" ;
-		echo "</div>" ;
+
 	
 	// this comment is superfluous - not just regular fluous.
 	?>
 
-<?php				
+<?php		
+	echo "</div>" ; //close "content"
+	echo "</div>" ; //close "page"			
 	echo "</body></html>";
 ?>

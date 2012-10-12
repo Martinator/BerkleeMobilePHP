@@ -207,9 +207,9 @@
 			$other_amount += $thisdonation[other_amount] ;
 		}
 	}
-	echo "<table border=\"0\" align=\"center\" width=\"480\">" ;
+	echo "<ul data-role=\"listview\"  data-theme=\"c\"  data-divider-theme=\"a\">" ;
 	if (($half_scholarships > 0) || ($full_scholarships > 0) || ($other_amount > 0)) {
-		echo "<tr><h3>Fund-A-Future</h3>" ;
+		echo "<li>Fund-A-Future</li>" ;
 	}
 	if ($half_scholarships > 0){
 		echo "<li><p>Tuition &#43; Room &#38; Board:  $half_scholarships &times; \$8,000 = \$" . number_format($half_scholarships * 8000) . "</p></li>" ;
@@ -222,8 +222,7 @@
 	}
 	//echo "<tr><td colspan=\"2\"><font face=\"sans-serif\" color=\"#666666\">Total: </font></td><td align=\"right\"><font face=\"sans-serif\" color=\"#666666\">\$".number_format(($half_scholarships * 2500) + ($full_scholarships * 5000) + ($other_amount))."</font></td></tr>" ;
 	echo "</ul>" ;
-	echo "</div>" ; //close "content"
-	echo "</div>" ; //close "page"
+
 	
 	
 	//echo "<meta http-equiv=\"Refresh\" content=\"15;url=demo_mobile_home.php?docent=$docent\">" ;
@@ -231,6 +230,8 @@
 
 
 
-<?php				
+<?php		
+	echo "</div>" ; //close "content"
+	echo "</div>" ; //close "page"		
 	echo "</body></html>";
 ?>
