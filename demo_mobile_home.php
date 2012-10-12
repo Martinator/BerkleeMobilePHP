@@ -207,7 +207,7 @@
 			$other_amount += $thisdonation[other_amount] ;
 		}
 	}
-	echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;
+	echo "<ul data-role=\"listview\"  data-theme=\"c\"   data-divider-theme=\"a\">" ;
 	
 	if (($half_scholarships > 0) || ($full_scholarships > 0) || ($other_amount > 0)) {
 		echo "<li data-role=\"list-divider\">Fund-A-Future</li>" ;
