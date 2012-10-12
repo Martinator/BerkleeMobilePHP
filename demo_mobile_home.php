@@ -78,7 +78,7 @@
 			<div data-role="content">
 				
 				<?php
-					echo "<h2>$auction_warning</h2>" ;
+					echo "$auction_warning" ;
 					if ($auction_closed){
 						echo "<meta http-equiv=\"Refresh\" content=\"5;url=demo_mobile-display_auction_winners.php\">" ;
 					}

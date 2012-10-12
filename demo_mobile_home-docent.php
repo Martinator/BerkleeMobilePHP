@@ -69,7 +69,7 @@
 
 
 		<?php
-			echo "<h2>$auction_warning</h2>" ; ;
+			echo "$auction_warning" ; ;
 		?>
 		
 <ul data-role="listview" data-inset="true"  data-theme="a" class="categories">

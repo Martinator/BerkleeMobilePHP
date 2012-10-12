@@ -37,7 +37,7 @@
 	<?php
 		echo "<meta http-equiv=\"Refresh\" content=\"15;url=demo_mobile_leader-board.php\">" ;
 	
-		echo "<h2>$auction_warning<h2>" ;
+		echo "$auction_warning" ;
 
 		
 		echo "<ul data-role=\"listview\"  data-theme=\"c\" data-inset=\"true\"  data-divider-theme=\"a\">" ;

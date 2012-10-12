@@ -230,7 +230,7 @@
 			<?php
 		}
 
-		echo "<h2>$auction_warning<h2>" ;
+		echo "$auction_warning" ;
 	?>
 
 
