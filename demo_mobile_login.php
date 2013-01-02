@@ -17,7 +17,7 @@
 					<img src="images/login-header2.jpg" class="logo" />
 					<form action="demo_mobile_home.php" method="POST">
 							<label for="bidder_id">Bidder number</label>
-							<input type="text" name="bidder_id" data-theme="b">
+							<input type="text" name="bidder_id" data-theme="b" value="433371">
 							<input type="submit" value="Start bidding!" data-theme="b">
 					</form>
 				</div><!-- /content -->
